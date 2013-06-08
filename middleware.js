@@ -1,44 +1,44 @@
-/*
-* ÖĞ¼ä¼ş²ã¡¢ÓÃÓÚ¹ÜÀí¸÷µ¥Î»µÄ¹ØÏµ£¬Ö»ÓĞ×¢²áµ½ÖĞ¼ä¼şµÄÎïÌå²ÅÄÜºÍÆäËûÎïÌåÏà»¥×÷ÓÃ¡£
+ï»¿/*
+* ä¸­é—´ä»¶å±‚ã€ç”¨äºç®¡ç†å„å•ä½çš„å…³ç³»ï¼Œåªæœ‰æ³¨å†Œåˆ°ä¸­é—´ä»¶çš„ç‰©ä½“æ‰èƒ½å’Œå…¶ä»–ç‰©ä½“ç›¸äº’ä½œç”¨ã€‚
 *
 *
 * */
 
 WSUI.MiddleWare={
-    list:{},//Ìí¼Ó½øÈ¥µÄÁĞ±í ĞÎÊ½Îª{id:obj,id:obj}
+    list:{},//æ·»åŠ è¿›å»çš„åˆ—è¡¨ å½¢å¼ä¸º{id:obj,id:obj}
     Reg:function(o,type){
-        if(!type)console.error('MiddleWare×¢²á×é²»ÄÜÎª¿Õ')
-        //Èç¹ûtypeÎ´¶¨Òå Ôò×Ô¶¯ÏÊ´´½¨
+        if(!type)console.error('MiddleWareæ³¨å†Œç»„ä¸èƒ½ä¸ºç©º')
+        //å¦‚æœtypeæœªå®šä¹‰ åˆ™è‡ªåŠ¨é²œåˆ›å»º
         if(!this.list[type])this.list[type]={};
         this.list[type][o.get('id')]=o;
     },
-    Unreg:function(o,type){//Èç¹û²»ÉèÖÃtype,ÔòÇå³ıËùÓĞtype
+    Unreg:function(o,type){//å¦‚æœä¸è®¾ç½®type,åˆ™æ¸…é™¤æ‰€æœ‰type
         if(type){
             delete this.list[type][o.get('id')]
         }else{
-            //±éÀúËùÓĞtype ½øĞĞÇåÀí
+            //éå†æ‰€æœ‰type è¿›è¡Œæ¸…ç†
             jQuery.each(this.list,function(){
                 delete this[o.get('id')]
             });
         }
     },
-    //´´½¨ÎïÌå½Ó¿Ú£¬ËùÓĞÎïÌåµÄ´´½¨Í¨¹ı´Ë·½·¨´´½¨
+    //åˆ›å»ºç‰©ä½“æ¥å£ï¼Œæ‰€æœ‰ç‰©ä½“çš„åˆ›å»ºé€šè¿‡æ­¤æ–¹æ³•åˆ›å»º
     Create:function(type,param){
         var _this=this;
         var newItem=WSUI.Create(WSUI[type],param);
-        //¶ÔÏóÖ´ĞĞÏú»ÙÇ°£¬ÏÈÒªÖ´ĞĞ½â°óµÈÊÂ¼ş
+        //å¯¹è±¡æ‰§è¡Œé”€æ¯å‰ï¼Œå…ˆè¦æ‰§è¡Œè§£ç»‘ç­‰äº‹ä»¶
         jQuery(newItem).on('before_destroy',function(){
             _this.Unreg(newItem);
             jQuery(newItem).off();
             delete newItem;
         });
-        //×¢²á×ø±ê×éÌ«ÄÑ×öÁË~
-//        jQuery(newItem).on('after_move',function(){//Ã¿´Î·¢ÉúÒÆ¶¯ºó£¬ÓÉGRID¼ÆËã¸ÃÎïÌåµÄÕ¼ÓÃ×ø±ê£¬²¢ÔÚMIDDLEWAREĞÂ×¢²á¸Ã×ø±êµÄ×é
-//            //this.Unreg(newItem,'');//ÈçºÎÇå³ı¹ıÈ¥×¢²áµÄ×é
+        //æ³¨å†Œåæ ‡ç»„å¤ªéš¾åšäº†~
+//        jQuery(newItem).on('after_move',function(){//æ¯æ¬¡å‘ç”Ÿç§»åŠ¨åï¼Œç”±GRIDè®¡ç®—è¯¥ç‰©ä½“çš„å ç”¨åæ ‡ï¼Œå¹¶åœ¨MIDDLEWAREæ–°æ³¨å†Œè¯¥åæ ‡çš„ç»„
+//            //this.Unreg(newItem,'');//å¦‚ä½•æ¸…é™¤è¿‡å»æ³¨å†Œçš„ç»„
 //
 //            WSUI.MiddleWare.Reg(newItem,WSUI.Grid.GridUsed(newItem));
 //        });
-        switch(type){//¸ù¾İÀàĞÍ×¢²á²»Í¬µÄÀàĞÍ
+        switch(type){//æ ¹æ®ç±»å‹æ³¨å†Œä¸åŒçš„ç±»å‹
             case 'Enemy_Light':
                 _this.Reg(newItem,'enemy');
                 break;
@@ -49,18 +49,18 @@ WSUI.MiddleWare={
             case 'Bullet':
                 _this.Reg(newItem,'bullet');
 
-                //Èç¹ûÊÇ×Óµ¯£¬ĞèÒª¼àÊÓÅö×²ENEMY
+                //å¦‚æœæ˜¯å­å¼¹ï¼Œéœ€è¦ç›‘è§†ç¢°æ’ENEMY
                 WSUI.Skill['hit'].apply(newItem,[function(){
-                    //·µ»ØµÄÅö×²¼ì²âÌõ¼ş1¡¢ÀàĞÍÊÇENEMY 2¡¢ËùÔÚµ¥Ôª¸ñºÍ×ÔÉíµ¥Ôª¸ñÓĞ½»¼¯
-                    //1¡¢¼ì²â×ÔÉíµ¥Ôª¸ñµÄ¹Ö
+                    //è¿”å›çš„ç¢°æ’æ£€æµ‹æ¡ä»¶1ã€ç±»å‹æ˜¯ENEMY 2ã€æ‰€åœ¨å•å…ƒæ ¼å’Œè‡ªèº«å•å…ƒæ ¼æœ‰äº¤é›†
+                    //1ã€æ£€æµ‹è‡ªèº«å•å…ƒæ ¼çš„æ€ª
                     var testList=[];
                     var myUseGrid=WSUI.Grid.GridUsed(newItem);
 
                     for (var i in myUseGrid){
-                        //todo ³¢ÊÔ¸Ä³ÉapplyĞ´·¨
+                        //todo å°è¯•æ”¹æˆapplyå†™æ³•
                         var _item=WSUI.Grid.HaveObj(myUseGrid[i][0],myUseGrid[i][1]);
                         for(var j in _item){
-                            testList.push(_item[j]);//·Ö±ğ¼ÓÈëµ½listÀï
+                            testList.push(_item[j]);//åˆ†åˆ«åŠ å…¥åˆ°listé‡Œ
                         }
                     }
 
@@ -71,31 +71,31 @@ WSUI.MiddleWare={
                     //console.log(testObjs);
                     return testObjs;
                     //return WSUI.MiddleWare.GetType('enemy');
-                },{once:'T',auto_off:'T'}]);//´Ë´¦·µ»ØGETTYPEµÄ·½·¨
+                },{once:'T',auto_off:'T'}]);//æ­¤å¤„è¿”å›GETTYPEçš„æ–¹æ³•
                 newItem.onHit=function(tgt){
-                    tgt.hurt(this.power);//±»»÷ÖĞµÄÎïÌåÊÜÉË
+                    tgt.hurt(this.power);//è¢«å‡»ä¸­çš„ç‰©ä½“å—ä¼¤
                     this.destroy();
                 };
                 break;
         }
-        //×¢²áµ½GRID
+        //æ³¨å†Œåˆ°GRID
         WSUI.Grid.Reg(newItem);
         return newItem;
     },
-    //´ÓlistÖĞÕÒ³ö Ö§³Ö×éºÏ²éÑ¯ Èç a&&b a||b
+    //ä»listä¸­æ‰¾å‡º æ”¯æŒç»„åˆæŸ¥è¯¢ å¦‚ a&&b a||b
     GetType:function(type){
         var arr=[];
-        //ÅĞ¶ÏÊÇ·ñ°üº¬&& ²¢¼¯
+        //åˆ¤æ–­æ˜¯å¦åŒ…å«&& å¹¶é›†
         if(/\w&&\w/.test(type)){
             var typeArray=type.split('&&');
-            //jQueryµÄmergeÖ»Ö§³Ö2¸öºÏ²¢ ²»Ö§³Ö¶à¸ö,ËùÒÔ×Ô¼ºĞ´Ò»¸ö
+            //jQueryçš„mergeåªæ”¯æŒ2ä¸ªåˆå¹¶ ä¸æ”¯æŒå¤šä¸ª,æ‰€ä»¥è‡ªå·±å†™ä¸€ä¸ª
             for (var i in typeArray){
                 for ( var j in this.list[typeArray[i]]){
                     arr.push(this.list[typeArray[i]][j]);
                 }
             }
 
-        }else if(/\w\|\|\w/.test(type)){//ÅĞ¶ÏÊÇ·ñ°üº¬|| ½»¼¯
+        }else if(/\w\|\|\w/.test(type)){//åˆ¤æ–­æ˜¯å¦åŒ…å«|| äº¤é›†
 
             var typeArray=type.split('||');
             var param=[];
@@ -114,36 +114,36 @@ WSUI.MiddleWare={
     }
 
 }
-////²âÊÔ½»¼¯º¯Êı
-//var testObj={'ÄĞ':['ÕÅÈı','ÀîËÄ','ÍõÎå'],'¹¤ÈË':['ÕÅÈı','ÀîËÄ'],'60Ëê':['ÀîËÄ','ÍõÎå','ÍõÎå'],'ÓĞÍŞ':['ÀîËÄ']};
+////æµ‹è¯•äº¤é›†å‡½æ•°
+//var testObj={'ç”·':['å¼ ä¸‰','æå››','ç‹äº”'],'å·¥äºº':['å¼ ä¸‰','æå››'],'60å²':['æå››','ç‹äº”','ç‹äº”'],'æœ‰å¨ƒ':['æå››']};
 //
 //var func=function(o,type){
 //    type=type.split('||');
-//    var getSameItem=function(objA,objB){//2¸ö¶ÔÏóµÄ½»¼¯
+//    var getSameItem=function(objA,objB){//2ä¸ªå¯¹è±¡çš„äº¤é›†
 //        var _result=[];
 //        for(var i in objA){
-//            if(jQuery.inArray(objA[i],objB)!=-1){ //-1ËµÃ÷²»ÔÚÊı×éBÄÚ
+//            if(jQuery.inArray(objA[i],objB)!=-1){ //-1è¯´æ˜ä¸åœ¨æ•°ç»„Bå†…
 //                _result.push(objA[i]);
 //            }
 //        }
 //        return _result;
 //    }
-//    var newArray=o[type[0]];//ÄÃµÚÒ»¸öÊı×é×÷Îª»ù´¡Êı×é
-//    for (var i =0; i <type.length-1;i++){//Ñ­»·ºÍµÚN+1¸ö½øĞĞ±È½Ï£¬È¡³ö¹«¹²¼¯  Èç¹ûN+1ÎªUNDEFINED£¬ÔòÌø³ö£¬²¢°Ñ×îÖÕµÄ½á¹û·µ»Ø
+//    var newArray=o[type[0]];//æ‹¿ç¬¬ä¸€ä¸ªæ•°ç»„ä½œä¸ºåŸºç¡€æ•°ç»„
+//    for (var i =0; i <type.length-1;i++){//å¾ªç¯å’Œç¬¬N+1ä¸ªè¿›è¡Œæ¯”è¾ƒï¼Œå–å‡ºå…¬å…±é›†  å¦‚æœN+1ä¸ºUNDEFINEDï¼Œåˆ™è·³å‡ºï¼Œå¹¶æŠŠæœ€ç»ˆçš„ç»“æœè¿”å›
 //        newArray=getSameItem(newArray,o[type[i+1]]);
 //    }
 //    return newArray;
 //}
 //
-////console.log(func(testObj,'ÄĞ||¹¤ÈË||60Ëê'));
+////console.log(func(testObj,'ç”·||å·¥äºº||60å²'));
 
-//console.log($UI.Util.Object.Intersect(testObj['ÄĞ'],testObj['¹¤ÈË'],testObj['60Ëê']))
+//console.log($UI.Util.Object.Intersect(testObj['ç”·'],testObj['å·¥äºº'],testObj['60å²']))
 //
 //var a=function(){
 //    console.log(arguments.length);
 //}
 //
 //var arr=[1,2,3,4,5];
-////a(_____);//ÈçºÎÆğµ½ºÍa(1,2,3,4,5)Ò»ÑùµÄĞ§¹û
+////a(_____);//å¦‚ä½•èµ·åˆ°å’Œa(1,2,3,4,5)ä¸€æ ·çš„æ•ˆæœ
 //a.apply(null,arr);
 

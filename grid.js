@@ -1,23 +1,23 @@
-//Íø¸ñÏµÍ³
+ï»¿//ç½‘æ ¼ç³»ç»Ÿ
 WSUI.Grid={
     debug:'T',
     W:32,
     H:16,
-    cw:30,// µ¥¸öµ¥Ôª¸ñµÄ¿í¶È
-    ch:30,// µ¥¸öµ¥Ôª¸ñµÄ¸ß¶È
+    cw:30,// å•ä¸ªå•å…ƒæ ¼çš„å®½åº¦
+    ch:30,// å•ä¸ªå•å…ƒæ ¼çš„é«˜åº¦
     cellArray:[],
     list:{},
 
-    Reg:function(o){//ÓëÍø¸ñ½¨Á¢¹ØÁª
+    Reg:function(o){//ä¸ç½‘æ ¼å»ºç«‹å…³è”
         var _this=this;
         this.list[o.get('id')]=o;
-        //×¢²áµÄÎïÌå£¬¼àÌı ÒÆ¶¯ Ïú»Ù µÈÊÂ¼ş
+        //æ³¨å†Œçš„ç‰©ä½“ï¼Œç›‘å¬ ç§»åŠ¨ é”€æ¯ ç­‰äº‹ä»¶
 //        jQuery(o).on('after_move',function(){
-//            //ÖØĞÂ¼ÆËãËùÕ¼¾İµÄ¸ñ×Ó
+//            //é‡æ–°è®¡ç®—æ‰€å æ®çš„æ ¼å­
 //            _this.GridUsed(this);
 //        });
         jQuery(o).on('before_destroy',function(){
-            //Ïû³ı
+            //æ¶ˆé™¤
             _this.Unreg(this);
         });
         //o.gridMap=[];
@@ -25,46 +25,46 @@ WSUI.Grid={
     Unreg:function(o){
         delete this.list[o.get('id')];
     },
-    PushItem:function(X,Y,o){//¶ÔÏó×¢²áµ½Íø¸ñ
-        //×¢²áµ½Íø¸ñµÄÎïÌå£¬Ê×ÏÈ½øĞĞ×ø±ê¼ì²â
+    PushItem:function(X,Y,o){//å¯¹è±¡æ³¨å†Œåˆ°ç½‘æ ¼
+        //æ³¨å†Œåˆ°ç½‘æ ¼çš„ç‰©ä½“ï¼Œé¦–å…ˆè¿›è¡Œåæ ‡æ£€æµ‹
         this.cellArray[X][Y].push(o);
 
 
     },
-    ItemLoc:function(x,y){ //¸ù¾İ¶ÔÏóµÄxyÇó³öXY
+    ItemLoc:function(x,y){ //æ ¹æ®å¯¹è±¡çš„xyæ±‚å‡ºXY
         var X,Y;
         X=parseInt(x / this.cw);
         Y=parseInt(y / this.ch);
         return [X,Y];
     },
-    GridUsed:function(o){//¸ù¾İ¶ÔÏóµÄ³¤¿í XY Çó³öËùÕ¼µÄµ¥Ôª¸ñ
+    GridUsed:function(o){//æ ¹æ®å¯¹è±¡çš„é•¿å®½ XY æ±‚å‡ºæ‰€å çš„å•å…ƒæ ¼
         var gridMap=[];
-        var itemXY_1=this.ItemLoc(o.get('x'),o.get('y'));//Çó×óÉÏ½ÇXY
-        var itemXY_2=this.ItemLoc(o.get('x')+o.get('w'),o.get('y')+o.get('h'));//ÇóÓÒÏÂ½ÇXY
+        var itemXY_1=this.ItemLoc(o.get('x'),o.get('y'));//æ±‚å·¦ä¸Šè§’XY
+        var itemXY_2=this.ItemLoc(o.get('x')+o.get('w'),o.get('y')+o.get('h'));//æ±‚å³ä¸‹è§’XY
         if(itemXY_1[0]<0)itemXY_1[0]=0;
         if(itemXY_1[1]<0)itemXY_1[1]=0;
 
-        if(itemXY_2[0]>(this.W-1))itemXY_2[0]=this.W-1;//±ß½ç¼ì²â
-        if(itemXY_2[1]>(this.H-1))itemXY_2[1]=this.H-1;//±ß½ç¼ì²â
+        if(itemXY_2[0]>(this.W-1))itemXY_2[0]=this.W-1;//è¾¹ç•Œæ£€æµ‹
+        if(itemXY_2[1]>(this.H-1))itemXY_2[1]=this.H-1;//è¾¹ç•Œæ£€æµ‹
 
         for(var i=itemXY_1[0];i<=itemXY_2[0];i++){
             for(var j=itemXY_1[1];j<=itemXY_2[1];j++){
                 gridMap.push([i,j]);
             }
         }
-        //o.gridMap=gridMap;//Îª¶ÔÏó Ôö¼ÓgridMapÊôĞÔ£¬ÓÃÓÚ×öÅö×²²âÊÔ
+        //o.gridMap=gridMap;//ä¸ºå¯¹è±¡ å¢åŠ gridMapå±æ€§ï¼Œç”¨äºåšç¢°æ’æµ‹è¯•
         return gridMap;
     },
-    HaveObj:function(X,Y){//»ñÈ¡µ¥Ôª¸ñÄÚÓµÓĞµÄ¶ÔÏóLIST
+    HaveObj:function(X,Y){//è·å–å•å…ƒæ ¼å†…æ‹¥æœ‰çš„å¯¹è±¡LIST
         return this.cellArray[X][Y];
     },
-    _init:function(){//ÏÔÊ¾Íø¸ñ
+    _init:function(){//æ˜¾ç¤ºç½‘æ ¼
         var _this=this;
-        for(var X=0;X<this.W;X++){ //´´ÔìÒ»¸ö¶şÎ»Êı×é£¬ ¼ÇÂ¼ËùÓĞµÄµ¥Ôª¸ñ£¬Ã¿¸öµ¥Ôª¸ñÎªÒ»¸öÊı×é¶ÔÏó£¬ÓÃÓÚ´æ·ÅITEM ×¢:Òª°ÑÕû¸ö¶ÔÏó¶ª½øÈ¥ ¹â1¸öID·´ÕÒÆğÀ´Âé·³
+        for(var X=0;X<this.W;X++){ //åˆ›é€ ä¸€ä¸ªäºŒä½æ•°ç»„ï¼Œ è®°å½•æ‰€æœ‰çš„å•å…ƒæ ¼ï¼Œæ¯ä¸ªå•å…ƒæ ¼ä¸ºä¸€ä¸ªæ•°ç»„å¯¹è±¡ï¼Œç”¨äºå­˜æ”¾ITEM æ³¨:è¦æŠŠæ•´ä¸ªå¯¹è±¡ä¸¢è¿›å» å…‰1ä¸ªIDåæ‰¾èµ·æ¥éº»çƒ¦
             this.cellArray[X]=[];
             for(var Y=0;Y<this.H;Y++){
                 this.cellArray[X][Y]=[];
-                if(this.debug=="T"){ //¿ª·¢Ä£Ê½£¬ÔÚHTMLÀï»­³öËùÓĞµÄCELL
+                if(this.debug=="T"){ //å¼€å‘æ¨¡å¼ï¼Œåœ¨HTMLé‡Œç”»å‡ºæ‰€æœ‰çš„CELL
                     var id="g_"+X+"_"+Y;
                     var left=X*this.cw;
                     var top=Y*this.ch;
@@ -81,32 +81,32 @@ WSUI.Grid={
                 }
             }
         };
-        //´´½¨Ò»¸öTimer
+        //åˆ›å»ºä¸€ä¸ªTimer
 
         //var RenderTimer=WSUI.Create(WSUI.Util.timer);
 
 
-        //´Ë¼ÆÊ±Æ÷ÓÃÓÚ¼ì²éËùÓĞµÄ±í¸ñÀïµÄ¶ÔÏó×ø±ê ÊÇ·ñÒÑ¾­Àë¿ª±í¸ñ
+        //æ­¤è®¡æ—¶å™¨ç”¨äºæ£€æŸ¥æ‰€æœ‰çš„è¡¨æ ¼é‡Œçš„å¯¹è±¡åæ ‡ æ˜¯å¦å·²ç»ç¦»å¼€è¡¨æ ¼
         GameTimer.addEvent(function(){
-            //Çå³ıÒÑ¾­ÒÆ³ıÍø¸ñµÄÎïÌå
+            //æ¸…é™¤å·²ç»ç§»é™¤ç½‘æ ¼çš„ç‰©ä½“
             $.each(_this.cellArray,function(i){
                 $.each(this,function(j){
                     if(this.length>0)this.length=0;
                 });
             });
 
-            $.each(_this.list,function(){//¼ì²é°ó¶¨ÎïÌåµÄÁĞ±í£¬»ñµÃÍø¸ñ×ø±ê ²¢ÔÚ ¸÷¸öÍø¸ñ×ø±êÀï ×¢²áÎïÌå
-                var _i=this; //ListÀïµÄitem
-                var objLocMap=_this.GridUsed(this);//»ñµÃÎïÌåËùÕ¼µÄÈ«²¿×ø±ê
-                $.each(objLocMap,function(){ //ÔÚÎïÌåËùÕ¼µÄ×ø±êÀï °Ñ¶ÔÏó¼Ó½øÈ¥
+            $.each(_this.list,function(){//æ£€æŸ¥ç»‘å®šç‰©ä½“çš„åˆ—è¡¨ï¼Œè·å¾—ç½‘æ ¼åæ ‡ å¹¶åœ¨ å„ä¸ªç½‘æ ¼åæ ‡é‡Œ æ³¨å†Œç‰©ä½“
+                var _i=this; //Listé‡Œçš„item
+                var objLocMap=_this.GridUsed(this);//è·å¾—ç‰©ä½“æ‰€å çš„å…¨éƒ¨åæ ‡
+                $.each(objLocMap,function(){ //åœ¨ç‰©ä½“æ‰€å çš„åæ ‡é‡Œ æŠŠå¯¹è±¡åŠ è¿›å»
                     _this.PushItem(this[0],this[1],_i);
                 })
             });
         });
 
-        if(this.debug=="T"){ //¿ª·¢ÕßÄ£Ê½ °ïÖúÏÔÊ¾ËùÓĞcellÏîËù³ÖÓĞµÄITEMID
-            this.bakHtmlTxt={};//±¸·İCELLµÄµ¥Ôª¸ñHTML ±ÜÃâÖØ¸´äÖÈ¾
-            GameTimer.addEvent(function(){//¶¨Ê± Ö±½Ó¸ú×ÙcellArray
+        if(this.debug=="T"){ //å¼€å‘è€…æ¨¡å¼ å¸®åŠ©æ˜¾ç¤ºæ‰€æœ‰cellé¡¹æ‰€æŒæœ‰çš„ITEMID
+            this.bakHtmlTxt={};//å¤‡ä»½CELLçš„å•å…ƒæ ¼HTML é¿å…é‡å¤æ¸²æŸ“
+            GameTimer.addEvent(function(){//å®šæ—¶ ç›´æ¥è·Ÿè¸ªcellArray
                 $.each(_this.cellArray,function(i){
                     $.each(this,function(j){
                         if(this.toString()!=_this.bakHtmlTxt["#g_"+i+"_"+j]){
@@ -116,7 +116,7 @@ WSUI.Grid={
                             });
                             $("#g_"+i+"_"+j).html(itemList);
                         }
-                        _this.bakHtmlTxt["#g_"+i+"_"+j]=this.toString();//±¸·İCELLµÄµ¥Ôª¸ñHTML ±ÜÃâÖØ¸´äÖÈ¾
+                        _this.bakHtmlTxt["#g_"+i+"_"+j]=this.toString();//å¤‡ä»½CELLçš„å•å…ƒæ ¼HTML é¿å…é‡å¤æ¸²æŸ“
                     });
                 });
             })

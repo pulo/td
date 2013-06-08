@@ -1,5 +1,5 @@
-/*
-* ¼¼ÄÜ¿â
+ï»¿/*
+* æŠ€èƒ½åº“
 * */
 //WSUI.Skill=(function(){
 //
@@ -7,8 +7,8 @@
 WSUI.Skill={
     move:function(){
         var _this=this;
-        //d:ÒÆ¶¯·½Ïò
-        //s:ÒÆ¶¯µ¥Î»
+        //d:ç§»åŠ¨æ–¹å‘
+        //s:ç§»åŠ¨å•ä½
 
         this.move=function(){
             $(_this).trigger('before_move');
@@ -28,7 +28,7 @@ WSUI.Skill={
             if(!d)d=0;
             _this._temp_d=d;
             GameTimer.addEvent(_this.move);
-        //_temp_d ÔÚÊ¹ÓÃºóÁ¢¼´Ïû³ı
+        //_temp_d åœ¨ä½¿ç”¨åç«‹å³æ¶ˆé™¤
 
         };
         this.stopMove=function(){
@@ -37,18 +37,18 @@ WSUI.Skill={
             delete _this._temp_d;
         };
 
-        //¼àÌıdestroy£¬Èç¹û´¥·¢ÔòĞèÒªÖ´ĞĞÍ£Ö¹
+        //ç›‘å¬destroyï¼Œå¦‚æœè§¦å‘åˆ™éœ€è¦æ‰§è¡Œåœæ­¢
         $(this).on('before_destroy',function(){
             _this.stopMove();
         })
 
     },
 
-    //°ó¶¨hit
-    //²ÎÊıÒ»£¬Ìí¼ÓĞèÒª±»¼ì²âµÄÎïÌå£»²ÎÊı¶ş£¬ÅäÖÃ
+    //ç»‘å®šhit
+    //å‚æ•°ä¸€ï¼Œæ·»åŠ éœ€è¦è¢«æ£€æµ‹çš„ç‰©ä½“ï¼›å‚æ•°äºŒï¼Œé…ç½®
     /*
-     * once£¬Ã¿´Î¼ì²âÊ±£¬Èç·¢ÉúÅö×²£¬Ö»¶ÔÒ»¸ö±»Åö×²¶ÔÏó·¢ÉúÊÂ¼ş£¬Ä¬ÈÏÎª'T' or 'F'
-     * auto_off Ò»µ©·¢ÉúÅö×² £¬¹Ø±ÕºóĞøÅö×²¼ì²â Ä¬ÈÏ'F'
+     * onceï¼Œæ¯æ¬¡æ£€æµ‹æ—¶ï¼Œå¦‚å‘ç”Ÿç¢°æ’ï¼Œåªå¯¹ä¸€ä¸ªè¢«ç¢°æ’å¯¹è±¡å‘ç”Ÿäº‹ä»¶ï¼Œé»˜è®¤ä¸º'T' or 'F'
+     * auto_off ä¸€æ—¦å‘ç”Ÿç¢°æ’ ï¼Œå…³é—­åç»­ç¢°æ’æ£€æµ‹ é»˜è®¤'F'
      * */
     hit:function(testList,cfg){
         if(!cfg)cfg={};
@@ -57,41 +57,41 @@ WSUI.Skill={
 
         var _this=this;
         this.checkList=[];
-        this.hitBind=function(objList){//°ó¶¨ÎïÌåÁĞ±í Êı×éĞÎÊ½
+        this.hitBind=function(objList){//ç»‘å®šç‰©ä½“åˆ—è¡¨ æ•°ç»„å½¢å¼
             _this.checkList=objList;
         };
-        this.onHit=jQuery.noop;//¸ø¶ÔÏó³õÊ¼»¯Åö×²ÊÂ¼ş
+        this.onHit=jQuery.noop;//ç»™å¯¹è±¡åˆå§‹åŒ–ç¢°æ’äº‹ä»¶
         this.hit=function(){
-            $(_this).trigger('before_hit_test');//¿ªÊ¼Åö×²¼ì²â
-            //½²Åö×²°ó¶¨µÄº¯Êı·ÅÔÚÃ¿´Î²âÊÔÊ±ÔËĞĞ£¬ÊµÊ±¸üĞÂÅö×²¼ì²âµÄ¶ÔÏó
+            $(_this).trigger('before_hit_test');//å¼€å§‹ç¢°æ’æ£€æµ‹
+            //è®²ç¢°æ’ç»‘å®šçš„å‡½æ•°æ”¾åœ¨æ¯æ¬¡æµ‹è¯•æ—¶è¿è¡Œï¼Œå®æ—¶æ›´æ–°ç¢°æ’æ£€æµ‹çš„å¯¹è±¡
             _this.hitBind(testList());
-            //xyÅö×²¼ì²â
+            //xyç¢°æ’æ£€æµ‹
             for(i in _this.checkList){
-                if(WSUI.Util.Position.HitTest(_this,_this.checkList[i])){//·¢ÉúÅö×²
-                    _this.onHit(_this.checkList[i]);//Ö´ĞĞÅö×²ÊÂ¼ş£¬²¢°Ñ±»Åö×²¶ÔÏó·µ»Ø»ØÈ¥
+                if(WSUI.Util.Position.HitTest(_this,_this.checkList[i])){//å‘ç”Ÿç¢°æ’
+                    _this.onHit(_this.checkList[i]);//æ‰§è¡Œç¢°æ’äº‹ä»¶ï¼Œå¹¶æŠŠè¢«ç¢°æ’å¯¹è±¡è¿”å›å›å»
 
-                    if(cfg.auto_off=='T')_this.hitOff();//Èç¹ûonceÎªT ÔòÍË³öÑ­»·
-                    if(cfg.once=='T')return false;//Èç¹ûonceÎªT ÔòÍË³öÑ­»·
+                    if(cfg.auto_off=='T')_this.hitOff();//å¦‚æœonceä¸ºT åˆ™é€€å‡ºå¾ªç¯
+                    if(cfg.once=='T')return false;//å¦‚æœonceä¸ºT åˆ™é€€å‡ºå¾ªç¯
                 }
             }
-            $(_this).trigger('after_hit_test');//½áÊøÅö×²¼ì²â
+            $(_this).trigger('after_hit_test');//ç»“æŸç¢°æ’æ£€æµ‹
         };
 
 
 
-        //×Ô¶¯¿ªÊ¼Åö×²²âÊÔ
+        //è‡ªåŠ¨å¼€å§‹ç¢°æ’æµ‹è¯•
         GameTimer.addEvent(_this.hit);
         this.hitOff=function(){
-        //¹Ø±ÕÅö×²²âÊÔ
+        //å…³é—­ç¢°æ’æµ‹è¯•
             GameTimer.removeEvent(_this.hit);
         };
-        //¼àÌıdestroy£¬Èç¹û´¥·¢ÔòĞèÒªÖ´ĞĞÍ£Ö¹
+        //ç›‘å¬destroyï¼Œå¦‚æœè§¦å‘åˆ™éœ€è¦æ‰§è¡Œåœæ­¢
         $(this).on('before_destroy',function(){
             _this.hitOff();
         })
     },
-    //Éä»÷
-    shot:function(type){//Éè¼ÆÀàĞÍ
+    //å°„å‡»
+    shot:function(type){//è®¾è®¡ç±»å‹
         var _this=this;
         this.shot=function(d){
             WSUI.MiddleWare.Create('Bullet',{x:_this.get('x'),y:_this.get('y'),direction:d});

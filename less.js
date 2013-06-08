@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  * LESS - Leaner CSS v1.4.0
  * http://lesscss.org
  *
@@ -542,9 +542,9 @@
                 // rule, which represents `{ ... }`, the `ruleset` rule, and this `primary` rule,
                 // as represented by this simplified grammar:
                 //
-                //     primary  ¡ú  (ruleset | rule)+
-                //     ruleset  ¡ú  selector+ block
-                //     block    ¡ú  '{' primary '}'
+                //     primary  â†’  (ruleset | rule)+
+                //     ruleset  â†’  selector+ block
+                //     block    â†’  '{' primary '}'
                 //
                 // Only at one point is the primary rule not called from the
                 // block rule: at the root level.
