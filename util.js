@@ -53,6 +53,10 @@ WSUI.Util.timer=WSUI.Core.extend({
             }
         },this.get('delay'));
     },
+    pause:function(){//暂停
+
+    },
+
     reset:function(){
         clearInterval(this.timer);
         this.canRepeat=this.get('repeatCount');//记录实际的重复数,用于统计
@@ -196,6 +200,23 @@ $UI.Util.Object={
         var moveItem=newArray[index];
         newArray.splice(index,1);
         newArray.push(moveItem);
+        return newArray;
+    },
+    //取对象的交集
+    Intersect:function(){
+        var getSameItem=function(objA,objB){//2个对象的交集
+            var _result=[];
+            for(var i in objA){
+                if(jQuery.inArray(objA[i],objB)!=-1){ //-1说明不在数组B内
+                    _result.push(objA[i]);
+                }
+            }
+            return _result;
+        }
+        var newArray=arguments[0];//拿第一个数组作为基础数组
+        for (var i =0; i <arguments.length-1;i++){//循环和第N+1个进行比较，取出公共集  如果N+1为UNDEFINED，则跳出，并把最终的结果返回
+            newArray=getSameItem(newArray,arguments[i+1]);
+        }
         return newArray;
     }
 }

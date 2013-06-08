@@ -62,6 +62,7 @@ WSUI.Skill={
         };
         this.onHit=jQuery.noop;//给对象初始化碰撞事件
         this.hit=function(){
+            $(_this).trigger('before_hit_test');//开始碰撞检测
             //讲碰撞绑定的函数放在每次测试时运行，实时更新碰撞检测的对象
             _this.hitBind(testList());
             //xy碰撞检测
@@ -73,6 +74,7 @@ WSUI.Skill={
                     if(cfg.once=='T')return false;//如果once为T 则退出循环
                 }
             }
+            $(_this).trigger('after_hit_test');//结束碰撞检测
         };
 
 

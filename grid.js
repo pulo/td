@@ -1,6 +1,6 @@
 //网格系统
 WSUI.Grid={
-    debug:'F',
+    debug:'T',
     W:32,
     H:16,
     cw:30,// 单个单元格的宽度
@@ -16,7 +16,7 @@ WSUI.Grid={
 //            //重新计算所占据的格子
 //            _this.GridUsed(this);
 //        });
-        jQuery(o).on('after_destroy',function(){
+        jQuery(o).on('before_destroy',function(){
             //消除
             _this.Unreg(this);
         });
@@ -54,6 +54,9 @@ WSUI.Grid={
         }
         //o.gridMap=gridMap;//为对象 增加gridMap属性，用于做碰撞测试
         return gridMap;
+    },
+    HaveObj:function(X,Y){//获取单元格内拥有的对象LIST
+        return this.cellArray[X][Y];
     },
     _init:function(){//显示网格
         var _this=this;

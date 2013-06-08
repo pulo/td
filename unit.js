@@ -58,13 +58,11 @@ WSUI.Enemy=WSUI.Unit.extend({
         });
         this.dom.addClass('enemy');
         //为dom增加血条
-        this.dom_life=jQuery("<div>",{
+        this.dom_life=jQuery('<div class="life">',{
             'class':'life',
-            'style':'width:'+this.get('w')+'px;height:5px;background-color:#f99'
+            'style':'width:'+this.get('w')+'px;'
         });
-        this.dom_life.append(jQuery('<div>',{
-            'style':'width:100%;background-color:#cfd7ff;height:5px'
-        }));
+        this.dom_life.append(jQuery('<div class="hp">'));
         this.dom_life.appendTo(this.dom);
 
         //绑定skill-move
@@ -116,15 +114,15 @@ WSUI.Tower=WSUI.Unit.extend({
             'h':_opt.h
         });
         WSUI.Skill['shot'].apply(this);//绑定射击功能
-        var _l=0;
-        setInterval(function(){
-            _l++;
-            if(_l>25)_i=0;
-            for(var i=0;i<2;i++){
-                _this.shot(i*8*Math.random()+90+_l*14.4);
-            }
-        },180);
-        _this.shot(140);
+//        var _l=0;
+//        setInterval(function(){
+//            _l++;
+//            if(_l>25)_i=0;
+//            for(var i=0;i<2;i++){
+//                _this.shot(i*8*Math.random()+90+_l*14.4);
+//            }
+//        },180);
+        _this.shot(0);
     }
 });
 
@@ -156,7 +154,6 @@ WSUI.Bullet=WSUI.Unit.extend({
         },2500)
     },
     destroy:function(){
-
         clearTimeout(this.lifeTimer);
         this._super();
     }

@@ -30,8 +30,9 @@ GameTimer.start();
 
 //$(enemy1).on('before_move',function(){console.log(123)});
 //enemy1.startMove(-30);
-tower1=WSUI.MiddleWare.Create('Tower',{x:500,y:250});
-
+tower1=WSUI.MiddleWare.Create('Tower',{x:400,y:200});
+enemy1=WSUI.MiddleWare.Create('Enemy_Light',{x:550,y:0});
+enemy2=WSUI.MiddleWare.Create('Enemy_Light',{x:560,y:0});
 //var bullet1=WSUI.Create(WSUI.Bullet,{x:620,y:120,direction:180});
 
 //WSUI.MiddleWare.reg(bullet1,'tb1');
@@ -40,15 +41,15 @@ tower1=WSUI.MiddleWare.Create('Tower',{x:500,y:250});
 //WSUI.MiddleWare.unreg(bullet1);
 //bullet1.startMove(180);
 //
-setInterval(function(){
-    //WSUI.Create(WSUI.Bullet,{x:0,y:0,direction:300})
-    var enemy1=WSUI.MiddleWare.Create('Enemy_Light',{x:5,y:5});
-    enemy1.startMove(0);
-    $(enemy1).on('after_move',function(){
-        if(this.get('x')>800){
-            this.destroy();
-        }
-
-    });
-
-},3500)
+//setInterval(function(){
+//    //WSUI.Create(WSUI.Bullet,{x:0,y:0,direction:300})
+//    var enemy1=WSUI.MiddleWare.Create('Enemy_Light',{x:5,y:5});
+//    enemy1.startMove(0);
+//    $(enemy1).on('after_move',function(){
+//        if(this.get('x')>800){
+//            this.destroy();
+//        }
+//
+//    });
+//
+//},3500)
