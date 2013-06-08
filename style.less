@@ -1,0 +1,58 @@
+@charset "UTF-8";
+@font-face{
+    font-family:"04b_03";
+    src:url("04B_03_.TTF") format('opentype');
+}
+@font-face{
+    font-family:"04b_08";
+    src:url("04B_08_.TTF") format('opentype');
+}
+@font-face{
+    font-family:"04b_09";
+    src:url("04B_09_.TTF") format('opentype');
+}
+/**
+ * @author			mitchell
+ * @description		Resets default browser CSS. [*game model only] [*html4]
+ * @lastmodified		$2010-02-09$
+ */
+body,ul,li{
+    margin:0px;
+    padding:0px;
+
+}
+
+body{
+    font-size:12px;
+
+
+
+    overflow:hidden;
+}
+
+
+#stage{
+  position:absolute;
+}
+.unit{
+    position:absolute;
+    background-color: #cedeff;
+
+}
+.enemy{
+    .unit;
+}
+.enemy_light{
+    .enemy;
+}
+.tower{
+    .unit;
+}
+
+/*for debug*/
+.grid_cell{
+  background-color:rgba(0,0,0,0.1);
+  border:1px solid #fff;
+  position:absolute;
+
+}
