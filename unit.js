@@ -144,11 +144,14 @@ WSUI.Tower_Gun=WSUI.Tower.extend({
         this._super(_opt);
         this.set({
             'w':_opt.w,
-            'h':_opt.h
+            'h':_opt.h,
+            'range':_opt.range
         });
         //检测怪物的距离
         this.checkDistance=function(){
+
             var checkList=WSUI.MiddleWare.GetType('enemy');
+
             for (var i in checkList){
                 if(WSUI.Util.Geometry.GetDistance([checkList[i].get('x'),checkList[i].get('y')],[_this.get('x'),_this.get('y')])<_this.get('range')){
                     console.log('target lock');

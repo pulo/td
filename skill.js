@@ -102,35 +102,52 @@ WSUI.Skill={
         var _this=this;
         //如果move skill 不存在，先绑定move skill
         if(!this.move)WSUI.Skill['move'].apply(this);
-        this.startMoveInPath=function(){
+        this.onMoveInPathFinish=jQuery.noop;//给对象初始化到达终点的事件
+        //监听destroy，如果触发则需要执行停止
+        $(this).on('before_destroy',function(){
+            _this.stopMoveInPath();
+        })
+        this.moveInPath=function(){
             //起点坐标
             var currentPoint=0;
             //开始移动往指定目标
             var goPoint=function(nextPoint){
                 //如果下一点为空，说明到达终点了
-                if(!nextPoint)console.log('到达终点');
+                if(!nextPoint){
+                    _this.onMoveInPathFinish();
+                    _this.stopMove();
+                    return false;
+                }
+
                 //求路径的角度
                 //只允许0 90 180 270
-                //console.log(currentPoint,nextPoint);
+                //console.log(currentPoinjht,nextPoint);
                 var angle=Math.round(WSUI.Util.Geometry.GetAngle([_this.get('x'),_this.get('y')],nextPoint)/90)*90;
 
                 _this.startMove(angle);
 
-                //todo:以下有逻辑BUG
-                //currentPoint++;
-                $(_this).on('after_move',function(){//每步进行检测
+
+                _this.checkStep=function(){
                     var con1=WSUI.Util.Number.InRange(this.get('x'),nextPoint[0],nextPoint[0]+4);//条件1 x坐标在路径点范围内
                     var con2=WSUI.Util.Number.InRange(this.get('y'),nextPoint[1],nextPoint[1]+4);//条件2 y坐标在路径点范围内
 
                     if(con1&&con2){
-                        //改变nextPoint,并作为下一个目标
-                        var newPoint=path[currentPoint+1];
-                        goPoint(newPoint);
+
+                        $(_this).off('after_move',_this.checkStep);
+                        currentPoint++;
+                        goPoint(path[currentPoint]);
                     }
-                })
+                }
+                //todo:以下有逻辑BUG
+                //currentPoint++;
+                $(_this).on('after_move',_this.checkStep)
             };
-            //goPoint(path[currentPoint]);
+            goPoint(path[currentPoint]);
+        };
+        this.stopMoveInPath=function(){
+            $(_this).off('after_move',_this.checkStep);
         }
+
     }
 
 

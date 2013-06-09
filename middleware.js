@@ -39,7 +39,10 @@ WSUI.MiddleWare={
                 //让怪物绑定路径，并且开始走动
 
                 WSUI.Skill['moveInPath'].apply(newItem,[WSUI.Path]);
-                newItem.startMoveInPath();
+                newItem.moveInPath();
+                newItem.onMoveInPathFinish=function(){
+                    newItem.destory();
+                }
                 break;
             case 'Tower_Gun':
                 _this.Reg(newItem,'tower');
