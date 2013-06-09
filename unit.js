@@ -107,22 +107,56 @@ WSUI.Tower=WSUI.Unit.extend({
         if(!_opt)_opt={};
         if(!_opt.w)_opt.w=24;
         if(!_opt.h)_opt.h=24;
+
         var _this=this;
         this._super(_opt);
         this.set({
             'w':_opt.w,
             'h':_opt.h
         });
-        WSUI.Skill['shot'].apply(this);//绑定射击功能
-        var _l=0;
-        setInterval(function(){
-            _l++;
-            if(_l>25)_i=0;
-            for(var i=0;i<2;i++){
-                _this.shot(i*8*Math.random()+90+_l*14.4);
+
+
+        //WSUI.Skill['shot'].apply(this);//绑定射击功能
+
+
+//        var _l=0;
+//        setInterval(function(){
+//            _l++;
+//            if(_l>25)_i=0;
+//            for(var i=0;i<2;i++){
+//                _this.shot(i*8*Math.random()+90+_l*14.4);
+//            }
+//        },180);
+//        _this.shot(0);
+    },
+    destroy:function(){
+        GameTimer.removeEvent(this.checkDistance);
+        this._super();
+    }
+});
+WSUI.Tower_Gun=WSUI.Tower.extend({
+    init:function(_opt){
+        if(!_opt)_opt={};
+        if(!_opt.w)_opt.w=24;
+        if(!_opt.h)_opt.h=24;
+        if(!_opt.range)_opt.range=100;
+        var _this=this;
+        this._super(_opt);
+        this.set({
+            'w':_opt.w,
+            'h':_opt.h
+        });
+        //检测怪物的距离
+        this.checkDistance=function(){
+            var checkList=WSUI.MiddleWare.GetType('enemy');
+            for (var i in checkList){
+                if(WSUI.Util.Geometry.GetDistance([checkList[i].get('x'),checkList[i].get('y')],[_this.get('x'),_this.get('y')])<_this.get('range')){
+                    console.log('target lock');
+                }
             }
-        },180);
-        _this.shot(0);
+
+        };
+        GameTimer.addEvent(this.checkDistance);
     }
 });
 

@@ -169,6 +169,9 @@ $UI.Util.Number={
         });
 
         return [maxNum,key];
+    },
+    InRange:function(val,minV,maxV){//检测数值是否落到范围内
+        return val>=minV&&val<=maxV;
     }
 };
 $UI.Util.Object={

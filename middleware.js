@@ -32,17 +32,16 @@ WSUI.MiddleWare={
             jQuery(newItem).off();
             delete newItem;
         });
-        //注册坐标组太难做了~
-//        jQuery(newItem).on('after_move',function(){//每次发生移动后，由GRID计算该物体的占用坐标，并在MIDDLEWARE新注册该坐标的组
-//            //this.Unreg(newItem,'');//如何清除过去注册的组
-//
-//            WSUI.MiddleWare.Reg(newItem,WSUI.Grid.GridUsed(newItem));
-//        });
+
         switch(type){//根据类型注册不同的类型
             case 'Enemy_Light':
                 _this.Reg(newItem,'enemy');
+                //让怪物绑定路径，并且开始走动
+
+                WSUI.Skill['moveInPath'].apply(newItem,[WSUI.Path]);
+                newItem.startMoveInPath();
                 break;
-            case 'Tower':
+            case 'Tower_Gun':
                 _this.Reg(newItem,'tower');
 
                 break;

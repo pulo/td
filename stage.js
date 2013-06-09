@@ -16,6 +16,40 @@ RenderTimer.start();
 GameTimer.start();
 
 
+
+//关卡类
+WSUI.Stage=WSUI.Core.extend({
+    init:function(_opt){
+        //创建地图
+        WSUI.Create(WSUI.Map,{
+            map:_opt.map
+        });
+        //创建怪物的移动路径
+        //console.log(_opt.map);
+        var way=WSUI.Util.Findway(_opt.map);
+        //放大way到实际坐标
+        for(var i in way){
+            way[i][0]=way[i][0]*30;
+            way[i][1]=way[i][1]*30;
+        }
+
+        WSUI.Path=way;
+
+
+        //创建UI组件
+        //创建塔选择菜单
+        WSUI.Create(WSUI.Ui.TowerMenu,{
+            el:$('.map_cell.tower')
+        });
+
+        WSUI.MiddleWare.Create('Enemy_Light',{x:0,y:0});
+
+
+    }
+})
+
+
+
 //
 //enemy1=WSUI.MiddleWare.Create('Enemy_Light',{x:100,y:20});
 //enemy1.startMove(0);

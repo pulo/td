@@ -60,16 +60,40 @@ body{
     .unit;
 
 }
-
-/*for debug*/
-.grid_cell{
+.map_cell{
     background-color:rgba(0,0,0,0);
     border:1px solid rgba(0,0,0,0.1);
     position:absolute;
+
     font-family:arial;
     font-size:12px;
     color:#b7b7b7;
 
+    &.block{
+        background-color: rgba(169, 164, 161, 0.58);
+    }
+    &.start{
+        background-color: rgba(0, 221, 14, 0.58);
+    }
+    &.end{
+        background-color: rgba(221, 192, 9, 0.58);
+    }
+    &.tower{
+        background-color: rgba(48, 160, 221, 0.58);
+        cursor:pointer;
+        &:hover{
+            background-color: #f0eca1;
+        }
+    }
+}
+/*for debug*/
+.grid_cell{
+
+    border:1px solid rgba(255,0,0,0.1);
+    position:absolute;
+    font-family:arial;
+    font-size:12px;
+    color:#b7b7b7;
 }
 
 .findway_cell{
