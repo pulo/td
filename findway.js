@@ -7,6 +7,155 @@
  author	mitchell
  version	0.2
  */
+//重新实现寻路算法
+/*
+* 传递MAP格式
+*  注意 这里坐标是垂直的 但实际上是横向的，先X再Y
+* map=[
+*     [0,0,1,0,0,0,0,0,0,0],
+*     [0,0,1,0,0,0,0,0,0,0],
+*     [0,0,1,0,0,1,0,0,0,0],
+*     [0,0,1,0,0,1,0,0,0,0],
+*     [0,0,0,0,0,1,0,0,0,0],
+*     [0,0,0,0,0,1,0,0,0,0],
+*     [0,0,1,0,0,0,0,0,0,0],
+*     [0,0,1,0,0,1,0,0,0,0],
+*     [0,0,1,0,0,1,0,0,0,0],
+*     [0,0,0,0,0,1,0,0,0,0],
+*     [0,0,0,0,0,1,0,0,0,0]
+* ]
+* */
+
+var Findway=function(map,start,end){
+    var debug='T',openList=[],closeList=[],way=[];
+
+    if(debug=='T'){//创建一个格子的DOM
+        var cellWidth=30,cellHeight=30;
+        for(i in map){
+            for(j in map[i]){
+                var left=i*cellWidth;
+                var top=j*cellHeight;
+                var width=cellWidth;
+                var height=cellHeight;
+                var dom=jQuery('<div>',{
+                    'class':'findway_cell',
+                    'id':'f_'+i+'_'+j,
+                    'style':'left:'+left+'px;top:'+top+'px;width:'+(width-1)+'px;height:'+(height-1)+'px'
+                });
+                if(map[i][j]==1)dom.addClass('block');
+                if(start[0]==i&&start[1]==j)dom.addClass('start');//画出起点
+                if(end[0]==i&&end[1]==j)dom.addClass('end');//画出起点
+                $("#stage").append(dom);
+            }
+        }
+    }
+//    //求格子到终点的距离
+    var cellDistance=function(X,Y){
+        try{map[X][Y]}catch(e){return 999;}
+        if(map[X][Y]==undefined||map[X][Y]==1)return 999;//如果坐标不存在或为障碍物则返回99999
+        //如果当前cell在openList里 也作为999;
+        console.log(jQuery.inArray([X,Y],openList),[X,Y],openList);
+        //检测是否在openList内，注 数组无法比较 所以TOSTRING后比较
+        for(var j in openList){
+            if([X,Y].toString()==openList[j])return 999;
+        }
+        //if(jQuery.inArray([X,Y],openList)!=-1)return 999;
+        return WSUI.Util.Geometry.GetDistance([X,Y],end);
+
+    }
+    var count=1;
+    //单步检测周围格子
+    var findStep=function(X,Y){
+        //对周围的格子进行检测，并标志出每个坐标距离
+
+        //检测坐标是否存在，并且非障碍物
+        var cellList=[
+            [X-1,Y],
+            [X+1,Y],
+            [X,Y-1],
+            [X,Y+1]
+        ];
+        //以下代码类似求最小值代码，区别是返回最小值所在的坐标
+        var maxDistance=9999;
+        var minLoc=[];//用于存放最小的坐标
+        for (var i in cellList){
+            var distance=cellDistance(cellList[i][0],cellList[i][1]);
+            if(debug=='T')jQuery('#f_'+cellList[i][0]+'_'+cellList[i][1]).html(parseInt(distance));
+            //console.log(distance<maxDistance);
+            if(distance<maxDistance){
+
+                minLoc=[cellList[i][0],cellList[i][1]];//讲目前循环里最小的坐标赋给minLoc
+                maxDistance=distance;//重写maxDistance;
+            }
+        }
+        //每次完成后，将已经检测过的格子 丢到openList，将上一步格子丢进closeList;
+        //todo 错误!!!!
+        outloop:
+        for(var i in cellList){
+            //检测是否在openList内，注 数组无法比较 所以TOSTRING后比较
+            for(var j in openList){
+                if(cellList[i].toString()==openList[j])continue outloop;
+            }
+            openList.push(cellList[i]);
+        }
+        closeList.push(minLoc);
+
+        //如果检测到目标，跳出递归
+        if(minLoc.toString()==end.toString()){
+            getWay();
+            return false;
+        }
+        //找出最近的格子后，进行下一次FIND
+        count++;
+
+        if(count>100)return false;
+        findStep(minLoc[0],minLoc[1]);
+    };
+    //返回路径
+    var getWay=function(){
+        if(debug=='T'){
+            for(var i in closeList){
+
+                jQuery('#f_'+closeList[i][0]+'_'+closeList[i][1]).addClass('way');
+            }
+
+        }
+        return closeList;
+    };
+    findStep(start[0],start[1]);
+};
+var map=[
+            [0,0,1,0,0,0,0,0,0,0],
+            [1,0,1,0,0,0,0,0,0,0],
+            [1,0,1,0,1,1,0,0,0,0],
+            [1,0,1,0,0,1,0,0,0,0],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,1,1,0,0,1,1,1,1,0],
+            [0,1,1,0,0,1,0,0,0,0],
+            [0,1,1,0,0,1,0,0,0,0],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,0,1,1,0,1,0,1,1,1],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,0,1,0,0,1,0,0,0,0],
+            [0,0,0,0,0,1,0,0,0,0],
+            [0,0,0,0,0,1,0,0,0,0],
+            [0,0,0,0,0,1,0,0,0,0]
+        ]
+
+Findway(map,[0,0],[17,9]);
+//var map=[
+//    [0,0,0,0],
+//    [0,0,1,0],
+//    [0,0,1,0],
+//    [0,0,1,0],
+//    [0,0,1,0],
+//    [0,0,1,0],
+//]
+//Findway(map,[5,0],[5,3]);
+
 $UI.Util.Findway=function(map,startCell,endCell){
     var _this=this;
     this.map=map.cellArray;//地图
@@ -79,7 +228,10 @@ $UI.Util.Findway=function(map,startCell,endCell){
         _this.checkCell([0,-1]);
         _this.checkCell([1,0]);
         _this.checkCell([-1,0]);
-
+//        _this.checkCell([1,1]);
+//        _this.checkCell([-1,-1]);
+//        _this.checkCell([1,-1]);
+//        _this.checkCell([-1,1]);
         //对openlist里的数据进行排序 ，找出H最小项
         var minH=999;
         var newParentCell;
@@ -89,7 +241,6 @@ $UI.Util.Findway=function(map,startCell,endCell){
                 newParentCellId=this.id;
             }
         });
-
 
         var checkLoc=_this.openList[newParentCellId];
         _this.closeIndex++;//增加OPENID

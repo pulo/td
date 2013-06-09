@@ -145,7 +145,32 @@ $UI.Util.Position={
     }
 
 };
+$UI.Util.Number={
+    Max:function(arr){//在数组中找出最大项
+        var minNum=-9999999999999;
+        var key=0;
 
+        jQuery.each(arr,function(i){
+            if(parseInt(arr[i])>minNum){
+                minNum=arr[i];
+                key=i;
+            }
+        });
+        return [minNum,key];
+    },
+    Min:function(arr){//在数组中找出最小项
+        var maxNum=9999999999999;
+        var key=0;
+        jQuery.each(arr,function(i){
+            if(parseInt(arr[i])<maxNum){
+                maxNum=arr[i];
+                key=i;
+            }
+        });
+
+        return [maxNum,key];
+    }
+};
 $UI.Util.Object={
     DeepVal:function(o,deep){
         var _d=deep.split('.');

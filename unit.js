@@ -114,14 +114,14 @@ WSUI.Tower=WSUI.Unit.extend({
             'h':_opt.h
         });
         WSUI.Skill['shot'].apply(this);//绑定射击功能
-//        var _l=0;
-//        setInterval(function(){
-//            _l++;
-//            if(_l>25)_i=0;
-//            for(var i=0;i<2;i++){
-//                _this.shot(i*8*Math.random()+90+_l*14.4);
-//            }
-//        },180);
+        var _l=0;
+        setInterval(function(){
+            _l++;
+            if(_l>25)_i=0;
+            for(var i=0;i<2;i++){
+                _this.shot(i*8*Math.random()+90+_l*14.4);
+            }
+        },180);
         _this.shot(0);
     }
 });

@@ -38,8 +38,8 @@ body{
     position:absolute;
     background-color: #fff;
     border:1px solid #b7b7b7;
-    border-radius: 2px;
-    box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
+//    border-radius: 2px;
+//    box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
 }
 .enemy{
     .unit;
@@ -63,9 +63,32 @@ body{
 
 /*for debug*/
 .grid_cell{
-  background-color:rgba(0,0,0,0);
-  border:1px solid rgba(0,0,0,0.1);
-  position:absolute;
-    
+    background-color:rgba(0,0,0,0);
+    border:1px solid rgba(0,0,0,0.1);
+    position:absolute;
+    font-family:arial;
+    font-size:12px;
+    color:#b7b7b7;
 
+}
+
+.findway_cell{
+    background-color:rgba(0,0,0,0);
+    border:1px solid rgba(0,0,0,0.1);
+    position:absolute;
+    font-family:arial;
+    font-size:12px;
+    color:#b7b7b7;
+    &.block{
+        background-color: rgba(221, 33, 26, 0.58);
+    }
+    &.start{
+        background-color: rgba(0, 221, 14, 0.58);
+    }
+    &.end{
+        background-color: rgba(221, 192, 9, 0.58);
+    }
+    &.way{
+        background-color: rgba(48, 160, 221, 0.58);
+    }
 }

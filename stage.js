@@ -30,9 +30,9 @@ GameTimer.start();
 
 //$(enemy1).on('before_move',function(){console.log(123)});
 //enemy1.startMove(-30);
-tower1=WSUI.MiddleWare.Create('Tower',{x:400,y:200});
-enemy1=WSUI.MiddleWare.Create('Enemy_Light',{x:550,y:0});
-enemy2=WSUI.MiddleWare.Create('Enemy_Light',{x:560,y:0});
+//tower1=WSUI.MiddleWare.Create('Tower',{x:400,y:200});
+//enemy1=WSUI.MiddleWare.Create('Enemy_Light',{x:550,y:0});
+//enemy2=WSUI.MiddleWare.Create('Enemy_Light',{x:560,y:0});
 //var bullet1=WSUI.Create(WSUI.Bullet,{x:620,y:120,direction:180});
 
 //WSUI.MiddleWare.reg(bullet1,'tb1');

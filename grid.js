@@ -1,6 +1,6 @@
 ﻿//网格系统
 WSUI.Grid={
-    debug:'T',
+    debug:'F',
     W:32,
     H:16,
     cw:30,// 单个单元格的宽度
