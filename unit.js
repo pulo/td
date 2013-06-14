@@ -68,9 +68,12 @@ WSUI.Enemy=WSUI.Unit.extend({
         //绑定skill-move
         WSUI.Skill['move'].apply(this);
 
-        //添加到middleware
-        //WSUI.MiddleWare.list.enemy[this.get('id')]=this;
-        //WSUI.MiddleWare.reg(this,'enemy');
+        //让怪物绑定路径，并且开始走动
+        WSUI.Skill['moveInPath'].apply(this,[WSUI.Path]);
+        this.moveInPath();
+        this.onMoveInPathFinish=function(){
+            _this.destroy();
+        }
     },
 
     hurt:function(_lostHp){//受伤事件 lostHp:所收到伤害的值(扣除血量)
@@ -100,7 +103,23 @@ WSUI.Enemy_Light=WSUI.Enemy.extend({
         this.dom.addClass('enemy_light');
     }
 });
-
+//小型怪物
+WSUI.Enemy_Heavy=WSUI.Enemy.extend({
+    init:function(_opt){
+        if(!_opt)_opt={};
+        if(!_opt.w)_opt.w=24;
+        if(!_opt.h)_opt.h=24;
+        this._super(_opt);
+        this.set({
+            w:_opt.w,
+            h:_opt.h,
+            hp:400,
+            maxHp:400,
+            spd:1.5
+        });
+        this.dom.addClass('enemy_heavy');
+    }
+});
 //塔
 WSUI.Tower=WSUI.Unit.extend({
     init:function(_opt){

@@ -41,7 +41,7 @@ WSUI.Create(WSUI.Stage,{
             number:4
         },
         {
-            enemy:['Enemy_Light'],
+            enemy:['Enemy_Heavy'],
             number:2
         },
         {

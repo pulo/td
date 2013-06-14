@@ -36,13 +36,11 @@ WSUI.MiddleWare={
         switch(type){//根据类型注册不同的类型
             case 'Enemy_Light':
                 _this.Reg(newItem,'enemy');
-                //让怪物绑定路径，并且开始走动
 
-                WSUI.Skill['moveInPath'].apply(newItem,[WSUI.Path]);
-                newItem.moveInPath();
-                newItem.onMoveInPathFinish=function(){
-                    newItem.destroy();
-                }
+                break;
+            case 'Enemy_Heavy':
+                _this.Reg(newItem,'enemy');
+
                 break;
             case 'Tower_Gun':
                 _this.Reg(newItem,'tower');
