@@ -139,25 +139,36 @@ WSUI.Tower_Gun=WSUI.Tower.extend({
         if(!_opt)_opt={};
         if(!_opt.w)_opt.w=24;
         if(!_opt.h)_opt.h=24;
-        if(!_opt.range)_opt.range=100;
+        if(!_opt.range)_opt.range=150;
         var _this=this;
         this._super(_opt);
         this.set({
             'w':_opt.w,
             'h':_opt.h,
-            'range':_opt.range
+            'range':_opt.range,
+            'reload':30
         });
+        //
+        WSUI.Skill['shot'].apply(this);
         //检测怪物的距离
+        var _r=0;
         this.checkDistance=function(){
-
+            if(_r<_this.get('reload')){
+                _r++;
+                return false;
+            }
             var checkList=WSUI.MiddleWare.GetType('enemy');
 
             for (var i in checkList){
                 if(WSUI.Util.Geometry.GetDistance([checkList[i].get('x'),checkList[i].get('y')],[_this.get('x'),_this.get('y')])<_this.get('range')){
-                    console.log('target lock');
+                    //获取两者角度
+                    var angle=WSUI.Util.Geometry.GetAngle([_this.get('x'),_this.get('y')],[checkList[i].get('x'),checkList[i].get('y')]);
+
+                    _this.shot(angle);
+                    break;
                 }
             }
-
+            _r=0;
         };
         GameTimer.addEvent(this.checkDistance);
     }
@@ -175,7 +186,7 @@ WSUI.Bullet=WSUI.Unit.extend({
             'w':_opt.w,
             'h':_opt.h,
             'spd':10,//默认移动速度
-            'power':30//威力
+            'power':1//威力
         });
         //this.dom.addClass('bullet');
         //绑定skill-move
@@ -188,7 +199,7 @@ WSUI.Bullet=WSUI.Unit.extend({
         //子弹自销毁事件
         this.lifeTimer=setTimeout(function(){
             _this.destroy();
-        },2500)
+        },1500)
     },
     destroy:function(){
         clearTimeout(this.lifeTimer);

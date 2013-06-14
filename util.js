@@ -27,7 +27,7 @@ WSUI.Util.timer=WSUI.Core.extend({
         jQuery.unique(this.taskList);
     },
     removeEvent:function(fn){
-        for (i in this.taskList){
+        for (var i in this.taskList){
             if(this.taskList[i]===fn){
                 this.taskList.splice(i,1);
             }
@@ -41,7 +41,7 @@ WSUI.Util.timer=WSUI.Core.extend({
             //记录当前已经执行了几次
             _this.set('currentCount',_this.get('currentCount')+1);
             //执行任务
-            for(i in _this.taskList){
+            for(var i in _this.taskList){
                 _this.taskList[i]();
             }
             //canRepeat计数器--
@@ -142,7 +142,114 @@ $UI.Util.Position={
         };
         _objectTest();
         return hitStatus;
-    }
+    },
+    //根据css属性返回位置返回值1~9
+    //  1  2  3
+    //  4  5  6
+    //  7  8  9
+    //返回值如上
+    Format:function(str){
+        if(!str)str='center';
+        var _p=jQuery.trim(str).toLowerCase();
+        switch(_p){
+            case 'top':_p='top center';break;
+            case 'left':_p='left middle';break;
+            case 'middle':_p='center middle';break;
+            case 'center':_p='center middle';break;
+            case 'right':_p='right middle';break;
+            case 'bottom':_p='bottom center';break;
+        }
+        _p=_p.split(' ');
+        //为了防止单词中输入2个以上空格，需要删除空的数组
+        _p=jQuery.grep(_p, function(n,i){
+            return n!='';
+        });
+        var _pid=0;
+        //单一项判断 如果只有left top right bottom则只设置一项
+
+        jQuery.each(_p,function(i,d){
+            _pid+={left:0,center:1,right:2,top:1,middle:4,bottom:7}[d];
+        });
+        return _pid;
+    },
+    //类似于jQuery.position
+    //将of对象移到 position的参数 所指定的 相对于my对象的位置
+    //of 属性可以为一个坐标，也可以为DOM对象
+
+    Snap:function(_opt){
+        if(!_opt){
+
+            return false;
+        }
+        if(!_opt.of){
+
+            return false;
+        }
+        if(!_opt.my){
+
+            return false;
+        }
+        if(!_opt.position){
+            _opt.position='right middle';//默认位置为右中
+        }
+        if(!_opt.side){
+            _opt.side='out';//默认为外侧
+        }
+        if(!_opt.offset){
+            _opt.offset=[0,0];
+        }
+        var _pid=this.Format(_opt.position);
+
+        //获得my对象的宽度及高度
+        var my={};
+        var of={};
+
+        my.width=_opt.my.outerWidth();
+        my.height=_opt.my.outerHeight();
+        //判断of的类型是否为EVENT
+        if(_opt.of.type){//说明是EVENT对象 event对象一般用于鼠标点击
+            of.width=0;
+            of.height=0;
+            of.left=_opt.of.pageX;
+            of.top=_opt.of.pageY;
+        }else{
+            //console.log(_opt.of.outerHeight(),_opt.of.offset().top);
+            of.width=_opt.of.outerWidth();
+            of.height=_opt.of.outerHeight();
+            of.left=_opt.of.offset().left;
+            of.top=_opt.of.offset().top;
+        }
+        if(_opt.side=='in'){
+            switch(_pid){
+                case 1:my.left=of.left+_opt.offset[0];my.top=of.top+_opt.offset[1];break;
+                case 2:my.left=of.left+of.width/2-my.width/2+_opt.offset[0];my.top=of.top+_opt.offset[1];break;
+                case 3:my.left=of.left+of.width-my.width-_opt.offset[0];my.top=of.top+_opt.offset[1];break;
+                case 4:my.left=of.left+_opt.offset[0];my.top=of.top+of.height/2-my.height/2+_opt.offset[1];break;
+                case 5:my.left=of.left+of.width/2-my.width/2+_opt.offset[0];my.top=of.top+of.height/2-my.height/2+_opt.offset[1];break;
+                case 6:my.left=of.left+of.width-my.width-_opt.offset[0];my.top=of.top+of.height/2-my.height/2+_opt.offset[1];break;
+                case 7:my.left=of.left+_opt.offset[0];my.top=of.top+of.height-my.height-_opt.offset[1];break;
+                case 8:my.left=of.left+of.width/2-my.width/2+_opt.offset[0];my.top=of.top+of.height-my.height-_opt.offset[1];break;
+                case 9:my.left=of.left+of.width-my.width-_opt.offset[0];my.top=of.top+of.height-my.height-_opt.offset[1];break;
+            }
+        }else{
+            switch(_pid){
+                case 1:my.left=of.left-my.width-_opt.offset[0];my.top=of.top-my.height-_opt.offset[1];break;
+                case 2:my.left=of.left+of.width/2-my.width/2+_opt.offset[0];my.top=of.top-my.height-_opt.offset[1];break;
+                case 3:my.left=of.left+of.width+_opt.offset[0];my.top=of.top-my.height-_opt.offset[1];break;
+                case 4:my.left=of.left-my.width-_opt.offset[0];my.top=of.top+of.height/2-my.height/2+_opt.offset[1];break;
+                case 5:my.left=of.left+of.width/2-my.width/2+_opt.offset[0];my.top=of.top+of.height/2-my.height/2+_opt.offset[1];break;
+                case 6:my.left=of.left+of.width+_opt.offset[0];my.top=of.top+of.height/2-my.height/2+_opt.offset[1];break;
+                case 7:my.left=of.left-my.width-_opt.offset[0];my.top=of.top+of.height+_opt.offset[1];break;
+                case 8:my.left=of.left+of.width/2-my.width/2+_opt.offset[0];my.top=of.top+of.height+_opt.offset[1];break;
+                case 9:my.left=of.left+of.width+_opt.offset[0];my.top=of.top+of.height+_opt.offset[1];break;
+            }
+        }
+        _opt.my.css({
+            position:'absolute',
+            left:my.left,
+            top:my.top
+        });
+    },
 
 };
 $UI.Util.Number={
@@ -247,7 +354,9 @@ $UI.Util.Object={
         }
         return newArray;
     }
-}
+};
+
+
 //var a={
 //    b:{
 //        c:1,

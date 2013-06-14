@@ -37,12 +37,20 @@ WSUI.Create(WSUI.Stage,{
     start_gold:500,
     wave:[
         {
-            enemy:['Enemy_light'],
-            number:8
+            enemy:['Enemy_Light'],
+            number:4
         },
         {
-            enemy:['Enemy_light'],
-            number:8
+            enemy:['Enemy_Light'],
+            number:2
+        },
+        {
+            enemy:['Enemy_Light'],
+            number:2
+        },
+        {
+            enemy:['Enemy_Light'],
+            number:1
         }
     ]
 });

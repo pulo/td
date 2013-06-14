@@ -41,7 +41,7 @@ WSUI.MiddleWare={
                 WSUI.Skill['moveInPath'].apply(newItem,[WSUI.Path]);
                 newItem.moveInPath();
                 newItem.onMoveInPathFinish=function(){
-                    newItem.destory();
+                    newItem.destroy();
                 }
                 break;
             case 'Tower_Gun':
@@ -55,23 +55,23 @@ WSUI.MiddleWare={
                 WSUI.Skill['hit'].apply(newItem,[function(){
                     //返回的碰撞检测条件1、类型是ENEMY 2、所在单元格和自身单元格有交集
                     //1、检测自身单元格的怪
-                    var testList=[];
-                    var myUseGrid=WSUI.Grid.GridUsed(newItem);
+//                    var testList=[];
+//                    var myUseGrid=WSUI.Grid.GridUsed(newItem);
 
-                    for (var i in myUseGrid){
-                        //todo 尝试改成apply写法
-                        var _item=WSUI.Grid.HaveObj(myUseGrid[i][0],myUseGrid[i][1]);
-                        for(var j in _item){
-                            testList.push(_item[j]);//分别加入到list里
-                        }
-                    }
+//                    for (var i in myUseGrid){
+//                        //todo 尝试改成apply写法
+//                        var _item=WSUI.Grid.HaveObj(myUseGrid[i][0],myUseGrid[i][1]);
+//                        for(var j in _item){
+//                            testList.push(_item[j]);//分别加入到list里
+//                        }
+//                    }
 
-                    var typeTgt=WSUI.MiddleWare.GetType('enemy');
+                    //var typeTgt=WSUI.MiddleWare.GetType('enemy');
 
-                    var testObjs=$UI.Util.Object.Intersect(testList,typeTgt);
+                    //var testObjs=$UI.Util.Object.Intersect(testList,typeTgt);
 
                     //console.log(testObjs);
-                    return testObjs;
+                    return WSUI.MiddleWare.GetType('enemy');
                     //return WSUI.MiddleWare.GetType('enemy');
                 },{once:'T',auto_off:'T'}]);//此处返回GETTYPE的方法
                 newItem.onHit=function(tgt){
@@ -81,7 +81,7 @@ WSUI.MiddleWare={
                 break;
         }
         //注册到GRID
-        WSUI.Grid.Reg(newItem);
+        //WSUI.Grid.Reg(newItem);
         return newItem;
     },
     //从list中找出 支持组合查询 如 a&&b a||b
@@ -116,36 +116,3 @@ WSUI.MiddleWare={
     }
 
 }
-////测试交集函数
-//var testObj={'男':['张三','李四','王五'],'工人':['张三','李四'],'60岁':['李四','王五','王五'],'有娃':['李四']};
-//
-//var func=function(o,type){
-//    type=type.split('||');
-//    var getSameItem=function(objA,objB){//2个对象的交集
-//        var _result=[];
-//        for(var i in objA){
-//            if(jQuery.inArray(objA[i],objB)!=-1){ //-1说明不在数组B内
-//                _result.push(objA[i]);
-//            }
-//        }
-//        return _result;
-//    }
-//    var newArray=o[type[0]];//拿第一个数组作为基础数组
-//    for (var i =0; i <type.length-1;i++){//循环和第N+1个进行比较，取出公共集  如果N+1为UNDEFINED，则跳出，并把最终的结果返回
-//        newArray=getSameItem(newArray,o[type[i+1]]);
-//    }
-//    return newArray;
-//}
-//
-////console.log(func(testObj,'男||工人||60岁'));
-
-//console.log($UI.Util.Object.Intersect(testObj['男'],testObj['工人'],testObj['60岁']))
-//
-//var a=function(){
-//    console.log(arguments.length);
-//}
-//
-//var arr=[1,2,3,4,5];
-////a(_____);//如何起到和a(1,2,3,4,5)一样的效果
-//a.apply(null,arr);
-
